@@ -22,6 +22,7 @@ I looked into it, and found out that python supports working with mimetext. Firs
 a mimetext object, and gave it a body and to, from, and subject values. Then all I had to do was convert the mimetext object to a string and send it using smtplib.  
 
 Here is the code for this (Note: ****** stands in for the BuyMyBooks gmail password, which I had to hard code in):
+
 ```
 receiver=[request.form['username']]
 sender = ['buymybooks350@gmail.com']
