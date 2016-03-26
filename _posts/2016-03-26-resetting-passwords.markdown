@@ -21,6 +21,30 @@ Once I did that it worked. However, the to, from, and subject lines weren’t wo
 I looked into it, and found out that python supports working with mimetext. First, I had to import MIMEText from email.mime.text. Next, I created 
 a mimetext object, and gave it a body and to, from, and subject values. Then all I had to do was convert the mimetext object to a string and send it using smtplib.  
 
+Here is the code for this (Note: ****** stands in for the BuyMyBooks gmail password, which I had to hard code in):
+```
+receiver=[request.form['username']]
+sender = ['buymybooks350@gmail.com']
+
+emailMSG = "Your new password is:  " + randomPass + "\n\nThank you, \nBuyMyBooks"
+msg = MIMEText(emailMSG)
+msg['Subject'] = 'Reset password'
+msg['From'] = 'buymybooks350@gmail.com'
+msg['To'] = request.form['username']
+
+try:
+    smtpObj = smtplib.SMTP("smtp.gmail.com", 587)
+    #server.set_debuglevel(1)
+    smtpObj.ehlo()
+    smtpObj.starttls()
+    smtpObj.login('buymybooks350@gmail.com', '******')
+    smtpObj.sendmail(sender, receiver, msg.as_string())         
+    print "Successfully sent email"
+except Exception as e:
+    print(e)
+
+```
+
 The only other thing I really needed to figure out after that was how to generate random passwords in Python. This turned out to be fairly easy. Python 
 has a random.choice() function that can be called on a list or string and which will pick one item from that list/string at random. In my code, I called this function, 
 and passed it all of the uppercase and lowercase ascii letters and the numbers 0-9 (which can be referred to through the Python constants string.ascii_uppercase, string.ascii_lowercase, 
